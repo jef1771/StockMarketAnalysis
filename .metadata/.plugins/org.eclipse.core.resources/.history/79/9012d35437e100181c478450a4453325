@@ -1,0 +1,10 @@
+
+public class Calculations {
+	public static float ema(Stock s) {
+		return 0f;
+	}
+	
+	public static float sma(Stock s) {
+		return 0f;
+	}
+}

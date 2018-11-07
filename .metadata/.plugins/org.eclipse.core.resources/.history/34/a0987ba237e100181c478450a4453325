@@ -1,0 +1,14 @@
+
+public class Calculations {
+	public static float ema(Stock s, int span) {
+		return 0f;
+	}
+	
+	public static float sma(Stock s, int span) {
+		return 0f;
+	}
+	
+	public static float rsi(Stock s) {
+		return 0f;
+	}
+}

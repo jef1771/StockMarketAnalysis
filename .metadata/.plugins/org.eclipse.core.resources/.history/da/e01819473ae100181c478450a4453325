@@ -1,0 +1,58 @@
+
+public class Calculations {
+	
+	public static float average(Stock s, int span) {
+		float total = 0;
+		int start = s.data.size() - span;
+		start = (start > 0) ? start : 0;
+		for(;start < s.data.size(); start++) {
+			total += s.data.get(start).close;
+		}
+		return total / span;
+	}
+	
+	/**
+	 * ema	Calculate the Exponential Moving Average
+	 * 		of a given Stock
+	 * 
+	 * @param s		The stock to calculate with
+	 * @param span	The time span in days
+	 * @return		The exponential moving average
+	 */
+	public static float ema(Stock s, int span) {
+		return 0f;
+	}
+	
+	
+	
+	/**
+	 * sma	Calculate the Simple Moving Average
+	 * 		of a given Stock
+	 * 
+	 * @param s		The stock to calculate with
+	 * @param span	The time span in days
+	 * @return		The simple moving average
+	 */
+	public static List<Float> sma(Stock s, int span) {
+		List<Float> values = new ArrayList<Float>();
+		return values;
+	}
+	
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static float rsi(Stock s) {
+		return 0f;
+	}
+	
+	/**
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static float so(Stock s) {
+		return 0f;
+	}
+}
