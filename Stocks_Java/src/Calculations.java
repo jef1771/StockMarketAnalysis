@@ -35,14 +35,16 @@ public class Calculations {
 		float multiplier = (2 / (span + 1));
 		
 		//Walk through the days starting at the span index
+		int index = 0;
 		for(int i = span; i < size - span; i++) {
 			if(i == span) {
-				values.add(i, average(s, 0, span));
+				values.add(average(s, 0, span));
 			}
 			else {
-				values.add(i, ((s.data.get(i).close - values.get(i - 1))
-								* multiplier) + values.get(i - 1));
+				values.add(((s.data.get(i).close - values.get(index - 1))
+								* multiplier) + values.get(index - 1));
 			}
+			index++;
 		}
 		return values;
 	}
@@ -63,7 +65,7 @@ public class Calculations {
 		
 		//walk backward through the data and calculate the averages
 		for(; size >= span; size--) {
-			values.add(size, average(s, size - span, size));
+			values.add(average(s, size - span, size));
 		}
 		
 		return values;
@@ -114,17 +116,17 @@ public class Calculations {
 				float change = s.data.get(i).close - s.data.get(i).open;
 				float g = change > 0 ? change : 0;
 				float l = change < 0 ? change : 0;
-				gains.add(begin, averageGainLoss(s, begin, i));
+				gains.add(averageGainLoss(s, begin, i));
 				float smoothedUp = (((gains.get(begin - 1).get(0) * (span - 1)) + g) / span);
 				float smoothedDown = (((gains.get(begin - 1).get(1) * (span - 1)) + l) / span);
 				float rs = smoothedUp / smoothedDown;
-				values.add(begin, (100 - (100/(1 + rs))));
+				values.add((100 - (100/(1 + rs))));
 			}
 			else{
 				List<Float> UD = averageGainLoss(s, begin, i);
 				float rs = UD.get(0) / UD.get(1);
-				gains.add(begin, UD);
-				values.add(begin, (100 - (100/(1 + rs))));
+				gains.add( UD);
+				values.add((100 - (100/(1 + rs))));
 			}
 			begin++;
 
@@ -177,7 +179,7 @@ public class Calculations {
 		int begin = 0;
 		for(int i = span; i < s.data.size(); i++){
 			List<Float> hl = highestHighLowestLow(s, begin, i);
-			values.add(begin, (s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
+			values.add((s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
 			begin++;
 
 		}

@@ -14,6 +14,10 @@ public class MainSequential extends Task {
         System.out.println("current dir = " + dir);
 		System.out.println("Hello World");
 		Stock s = new Stock("Sample", James_Personal);
+		System.out.println(Calculations.ema(s, 14).size());
+		System.out.println(Calculations.sma(s, 14).size());
+		System.out.println(Calculations.so(s).size());
+		System.out.println(Calculations.rsi(s).size());
 	}
 	
 	/**

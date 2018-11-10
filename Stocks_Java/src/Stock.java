@@ -17,6 +17,7 @@ public class Stock {
 	ArrayList<Day_Data> data;
 	
 	public Stock(String symbol, String fileName) {
+		this.data = new ArrayList<Day_Data>();
 		this.loadStockDataFromJson(fileName);
 	}
 	
@@ -42,12 +43,12 @@ public class Stock {
 					String[] tokens = line.split(",");
 					data.add(
 						new Day_Data(
-							new SimpleDateFormat("dd/MM/yyyy").parse(tokens[0]),
+							new SimpleDateFormat("yyyy-MM-dd").parse(tokens[0]),
 							Float.valueOf(tokens[1]),
 							Float.valueOf(tokens[2]),
 							Float.valueOf(tokens[3]),
 							Float.valueOf(tokens[4]),
-							Double.valueOf(tokens[5]),
+							Double.valueOf(tokens[5])
 						)
 					);
 				}
