@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.utils.Arrays;
 
 public class Calculations {
 	
@@ -85,7 +86,7 @@ public class Calculations {
 		float gain = 0;
 		float loss = 0;
 		for(;start < end; start++){
-			float change = s.data.get(i).close - s.data.get(i).open;
+			float change = s.data.get(start).close - s.data.get(start).open;
 			if(change > 0){
 				gain += change;
 			}
@@ -122,7 +123,7 @@ public class Calculations {
 				values.add(begin, (100 - (100/(1 + rs))));
 			}
 			else{
-				ArrayList<Float> UD = averageGainLoss(s, begin, i);
+				List<Float> UD = averageGainLoss(s, begin, i);
 				float rs = UD.get(0) / UD.get(1);
 				gains.add(begin, UD);
 				values.add(begin, (100 - (100/(1 + rs))));
@@ -158,8 +159,8 @@ public class Calculations {
 		float high = 0;
 		float low = 0;
 		for(;start < end; start++){
-			high = high < s.get(start).high ? s.get(start).high : high;
-			low = low < s.get(start).low ? s.get(start).low : low;
+			high = high < s.data.get(start).high ? s.data.get(start).high : high;
+			low = low < s.data.get(start).low ? s.data.get(start).low : low;
 		}
 
 		return new ArrayList<Float>(Arrays.asList(high, low));
@@ -177,8 +178,8 @@ public class Calculations {
 		List<Float> values = new ArrayList<Float>(s.data.size() - span);
 		int begin = 0;
 		for(int i = span; i < s.data.size(); i++){
-			ArrayList<Float> hl = highestHighLowerstLow(s, begin, i);
-			values.add(begin, (s.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
+			ArrayList<Float> hl = highestHighLowestLow(s, begin, i);
+			values.add(begin, (s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
 			begin++;
 
 		}
