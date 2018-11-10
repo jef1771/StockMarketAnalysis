@@ -7,7 +7,7 @@ public class MainSequential extends Task {
 	public void main(String[] arg0) throws Exception 
 	{				
 		System.out.println("Hello World");
-		Stock s = new Stock("Sample", "../stock_database/A.json");
+		//Stock s = new Stock("Sample", "../stock_database/A.json");
 	}
 	
 	/**
