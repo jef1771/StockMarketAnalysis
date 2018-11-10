@@ -1,4 +1,4 @@
- import java.util.Date;  
+import java.util.Date;  
 
 public class Day_Data {
 	public float open;
@@ -6,7 +6,7 @@ public class Day_Data {
 	public float high;
 	public float low;
 	public double volume;
-	public 
+	public Date date;
 	
 	public Day_Data(
 			Date date,
