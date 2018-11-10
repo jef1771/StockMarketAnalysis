@@ -23,7 +23,7 @@ public class Stock {
 	public void loadStockDataFromJson(String fileName)
 	{
 		try {
-			Object obj = new JSONParser().parse(new FileReader("stock_database/A.json"));
+			Object obj = new JSONParser().parse(new FileReader(fileName));
 			JSONObject jo = (JSONObject) obj; 
 
 			int count = 0;
@@ -65,9 +65,4 @@ public class Stock {
 		} 
 	}
 	
-	// Temp Test main function
-	public static void main(String[] args)
-	{
-		Stock s = new Stock("symbol", "stock_database/A.json");
-	}
 }
