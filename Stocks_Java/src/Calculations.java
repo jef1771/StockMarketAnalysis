@@ -125,7 +125,7 @@ public class Calculations {
 				ArrayList<Float> UD = averageGainLoss(s, begin, i);
 				float rs = UD.get(0) / UD.get(1);
 				gains.add(begin, UD);
-				values.add(begin, (100 - (100/(1 + rs))))
+				values.add(begin, (100 - (100/(1 + rs))));
 			}
 			begin++;
 
