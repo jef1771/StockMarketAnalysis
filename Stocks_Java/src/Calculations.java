@@ -28,7 +28,7 @@ public class Calculations {
 	 * @return		The exponential moving average
 	 */
 	public static List<Float> ema(Stock s, int span) {
-		List<Float> values = new ArrayList<Float>();
+		List<Float> values = new ArrayList<Float>(s.data.size() - span);
 		int size = s.data.size() - 1;
 		
 		//EMA multiplier
