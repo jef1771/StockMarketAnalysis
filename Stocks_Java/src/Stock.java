@@ -40,7 +40,16 @@ public class Stock {
 				else
 				{
 					String[] tokens = line.split(",");
-					//line[0]
+					data.add(
+						new Day_Data(
+							new SimpleDateFormat("dd/MM/yyyy").parse(tokens[0]),
+							Float.valueOf(tokens[1]),
+							Float.valueOf(tokens[2]),
+							Float.valueOf(tokens[3]),
+							Float.valueOf(tokens[4]),
+							Double.valueOf(tokens[5]),
+						)
+					);
 				}
 			}
 			
