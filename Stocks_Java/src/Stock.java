@@ -1,14 +1,15 @@
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
+import java.text.SimpleDateFormat;  
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 public class Stock {
 	
@@ -22,35 +23,26 @@ public class Stock {
 	public void loadStockDataFromJson(String fileName)
 	{
 		try {
-			Object obj = new JSONParser().parse(new FileReader(fileName));
-			JSONObject jo = (JSONObject) obj; 
-
-			int count = 0;
 			
-		    // getting address 
-	        Map dailyPriceMap = ((Map)jo.get("Time Series (Daily)")); 
-	        TreeMap<String, JSONObject> treeMap = new TreeMap<String, JSONObject>(dailyPriceMap); 
-	        
-	        data = new ArrayList<Day_Data>();
-	        
-	        // iterating address Map 
-	        Iterator<Map.Entry<String, JSONObject>> itr1 = treeMap.entrySet().iterator(); 
-	        while (itr1.hasNext()) { 
-	            Map.Entry pair = itr1.next(); 
-	            JSONObject tmpJson = ((JSONObject)pair.getValue());
-	            System.out.println(pair.getKey());
-	            data.add(
-	            		new Day_Data(
-    						Float.parseFloat(tmpJson.get("1. open").toString()),
-    						Float.parseFloat(tmpJson.get("2. high").toString()),
-    						Float.parseFloat(tmpJson.get("3. low").toString()),
-    						Float.parseFloat(tmpJson.get("4. close").toString()),
-    						Double.parseDouble(tmpJson.get("5. volume").toString())
-	            		)
-	            );
-	        } 
-	        
-	        System.out.println(data.size());
+			File f = new File(fileName);
+			FileReader fr = new FileReader(f);
+			BufferedReader br = new BufferedReader(fr);
+
+			StringBuffer sb = new StringBuffer();
+
+			while (true) 
+			{
+				String line = br.readLine();
+				if (line == null)
+				{
+					break;
+				}
+				else
+				{
+					String[] tokens = line.split(",");
+					//line[0]
+				}
+			}
 			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
