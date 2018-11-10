@@ -13,7 +13,7 @@ public class MainSequential extends Task {
 		String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
 		System.out.println("Hello World");
-		Stock s = new Stock("Sample", James_Tardis);
+		Stock s = new Stock("Sample", James_Personal);
 	}
 	
 	/**
