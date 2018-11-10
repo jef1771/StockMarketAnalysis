@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.utils.Arrays;
+import java.utils.*;
 
 public class Calculations {
 	
@@ -178,7 +176,7 @@ public class Calculations {
 		List<Float> values = new ArrayList<Float>(s.data.size() - span);
 		int begin = 0;
 		for(int i = span; i < s.data.size(); i++){
-			ArrayList<Float> hl = highestHighLowestLow(s, begin, i);
+			List<Float> hl = highestHighLowestLow(s, begin, i);
 			values.add(begin, (s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
 			begin++;
 
