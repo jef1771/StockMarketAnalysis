@@ -69,23 +69,130 @@ public class Calculations {
 		
 		return values;
 	}
-	
+
+
 	/**
-	 * 
-	 * @param s
-	 * @return
+	 * averageGainLoss finds the average gain and average loss of a given stock
+	 * in a given range of days. This is a utility function for calculating RSI
+	 *
+	 * @param s the stock to do the calculation with
+	 * @param start the index of the day to start at
+	 * @param end   the index of the day to end at
+	 *
+	 * @return A list of float values where the gain is at index 0 and the loss at index 1
 	 */
-	public static float rsi(Stock s) {
-		return 0f;
+	public static List<Float> averageGainLoss(Stock s, int start, int end){
+		float gain = 0;
+		float loss = 0;
+		for(;start < end; start++){
+			float change = s.data.get(i).close - s.data.get(i).open;
+			if(change > 0){
+				gain += change;
+			}
+			else{
+				loss -= change;
+			}
+		}
+		gain = gain / (end - start);
+		loss = loss / (end - start);
+		return new ArrayList<Float>(Arrays.asList(gain, loss));
+	}
+
+	/**
+	 * rsi_range finds the rsi for a given day range
+	 *
+	 * @param s the stock to do the calculations on 
+	 * @param span the day range to do the calculations on
+	 *
+	 * @return A List of float values representing the RSI for each day.
+	 */
+	public static List<Float> rsi_range(Stock s, int span){
+		List<Float> values = new ArrayList<Float>(s.data.size() - span);
+		List<List<Float>> gains = new ArrayList<List<Float>>(s.data.size() - span);
+		int begin = 0;
+		for(int i = span; i < s.data.size(); i++){
+			if(begin > 0){
+				float change = s.data.get(i).close - s.data.get(i).open;
+				float g = change > 0 ? change : 0;
+				float l = change < 0 ? change : 0;
+				gains.add(begin, averageGainLoss(s, begin, i));
+				float smoothedUp = (((gains.get(begin - 1).get(0) * (span - 1)) + g) / span);
+				float smoothedDown = (((gains.get(begin - 1).get(1) * (span - 1)) + l) / span);
+				float rs = smoothedUp / smoothedDown;
+				values.add(begin, (100 - (100/(1 + rs))));
+			}
+			else{
+				ArrayList<Float> UD = averageGainLoss(s, begin, i);
+				float rs = UD.get(0) / UD.get(1);
+				gains.add(begin, UD);
+				values.add(begin, (100 - (100/(1 + rs))))
+			}
+			begin++;
+
+		}
+		return values;
 	}
 	
 	/**
-	 * stochastic oscillator
-	 * 
-	 * @param s
-	 * @return
+	 * rsi returns the default rsi which is calculated with day range of 14 
+	 *
+	 * @param s the stock to do the calculations on 
+	 * @return A List of Float values representing the RSI of each day
 	 */
-	public static float so(Stock s) {
-		return 0f;
+	public static List<Float> rsi(Stock s) {
+		return rsi_range(s, 14);
+	}
+	
+
+	/**
+	 * highestHighLowestLow finds the highest high value and lowest low value in a 
+	 * given range of days for a given stock
+	 *
+	 * @param s The stock to do the calculations with
+	 * @param start the first day in the range
+	 * @param end the last day in the range
+	 *
+	 * @return a list of floats where index 0 holds the high, and index 1 the low
+	 */
+	public static List<Float> highestHighLowestLow(Stock s, int start, int end){
+		float high = 0;
+		float low = 0;
+		for(;start < end; start++){
+			high = high < s.get(start).high ? s.get(start).high : high;
+			low = low < s.get(start).low ? s.get(start).low : low;
+		}
+
+		return new ArrayList<Float>(Arrays.asList(high, low));
+	}
+
+	/**
+	 * stochastic oscillator calculation at a given range of days
+	 * 
+	 * @param s The stock to do the calculations with
+	 * @param span the range of days to do the calculation with
+	 *
+	 * @return The List of float values representing the SO at each day
+	 */
+	public static List<Float> so_range(Stock s, int span){
+		List<Float> values = new ArrayList<Float>(s.data.size() - span);
+		int begin = 0;
+		for(int i = span; i < s.data.size(); i++){
+			ArrayList<Float> hl = highestHighLowerstLow(s, begin, i);
+			values.add(begin, (s.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
+			begin++;
+
+		}
+		return values;
+	}
+
+	/**
+	 * stochastic oscillator calculation at default range of days which is 14
+	 * 
+	 * @param s The stock to do the calculations with
+	 *
+	 * @return The List of float values representing the SO at each day
+	 */
+	public static List<Float> so(Stock s) {
+		return so_range(s, 14);
 	}
 }
