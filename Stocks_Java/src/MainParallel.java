@@ -24,7 +24,11 @@ public class MainParallel extends Task {
 		parallelFor(0, (symbolNames.size()-1)).exec(new Loop()
 		{
 			public void run(int i) throws Exception{
-				Stock s = new Stock(symbolNames.get(i), Li_Personal+symbolNames.get(i)+".txt");
+				Stock s = new Stock(symbolNames.get(i), Li_Personal+symbolNames.get(i));
+				if(s.data.size() < 10){
+					//System.out.println(s.sym);
+					return;
+				}
 				helper.writeReportToCSV(
 					false,
 					symbolNames.get(i),

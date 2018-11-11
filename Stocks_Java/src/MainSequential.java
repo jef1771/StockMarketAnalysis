@@ -24,7 +24,11 @@ public class MainSequential extends Task {
 	
 		for (int i = 0; i < symbolNames.size(); i++)
 		{
-			Stock s = new Stock(symbolNames.get(i), Li_Personal+symbolNames.get(i)+".txt");
+			Stock s = new Stock(symbolNames.get(i), Li_Personal+symbolNames.get(i));
+			if(s.data.size() < 10){
+				//System.out.println(s.sym);
+				continue;
+			}
 			helper.writeReportToCSV(
 				true,
 				symbolNames.get(i),
