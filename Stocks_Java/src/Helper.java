@@ -10,6 +10,10 @@ import java.text.SimpleDateFormat;
 
 public class Helper{
 
+	/**
+	 * Helper constructor
+	 * 
+	 */
 	public Helper()
 	{
 		
@@ -30,7 +34,7 @@ public class Helper{
 		String NEW_LINE_SEPARATOR = "\n";
 		
 		FileWriter fw = null;
-		String dateStr = (isSeq?"Seq Report ":"Smp Report (") + java.time.LocalDate.now().toString() + ")";
+		String dateStr = (isSeq?"Seq Report (":"Smp Report (") + java.time.LocalDate.now().toString() + ")";
 		File dateFolder = new File("../output_database/" + dateStr);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		dateFolder.mkdirs();
@@ -86,7 +90,11 @@ public class Helper{
 			}
 		}
 	}
-	
+
+	/**
+	 * read the input file that contains a list of stock symbols
+	 * @param string type
+	 */	
 	public ArrayList<String> readInputFile(String fileName)
 	{
 		ArrayList<String> rtnList = new ArrayList<String>();
