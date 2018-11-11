@@ -23,9 +23,9 @@ public class Day_Data {
 	public Day_Data(
 			Date date,
 			float open,
-			float close,
 			float high,
 			float low,
+			float close,
 			double volume
 	)
 	{
@@ -35,6 +35,5 @@ public class Day_Data {
 		this.high = high;
 		this.low = low;
 		this.volume = volume;
-		this.date = date;
 	}
 }
