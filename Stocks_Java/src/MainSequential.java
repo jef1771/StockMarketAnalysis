@@ -35,6 +35,17 @@ public class MainSequential extends Task {
 				s,
 				spanSize
 			);
+			
+			if (i == 0)
+			{
+				helper.NaiveBayesPrediction(
+					(float)0.01, 
+					Calculations.sma(s, spanSize), 
+					Calculations.ema(s, spanSize),
+					s,
+					spanSize
+				);
+			}
 		}
 	}
 	
