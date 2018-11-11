@@ -103,9 +103,7 @@ public class Helper{
 					
 					String input_pre = (prediction.isStockInc?"Increase":"Not Increase") + 
 					"(" + String.valueOf(prediction.Pro_IncStock_Given_IncEma_IncSMA) + ")";
-					
-					System.out.println(input_pre);
-					
+										
 					fw.append(input_pre);
 				}
 				
