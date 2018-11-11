@@ -13,8 +13,8 @@ import java.text.SimpleDateFormat;
 
 public class Stock {
 	
-	String sym;
-	ArrayList<Day_Data> data;
+	public String sym;
+	public ArrayList<Day_Data> data;
 	
 	public Stock(String symbol, String fileName) {
 		this.data = new ArrayList<Day_Data>();
