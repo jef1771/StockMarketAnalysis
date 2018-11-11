@@ -13,8 +13,8 @@ public class Calculations {
 	 */
 	public static float average(Stock s, int start, int end) {
 		float total = 0;
-		for(;start < end; start++) {
-			total += s.data.get(start).close;
+		for(int i = start ;i < end; i++) {
+			total += s.data.get(i).close;
 		}
 		return total / (end - start);
 	}
@@ -32,17 +32,16 @@ public class Calculations {
 		int size = s.data.size() - 1;
 		
 		//EMA multiplier
-		float multiplier = (2 / (span + 1));
+		float multiplier = (2f / (span + 1f));
 		
 		//Walk through the days starting at the span index
 		int index = 0;
-		for(int i = span; i < size - span; i++) {
+		for(int i = span; i <= size; i++) {
 			if(i == span) {
-				values.add(average(s, 0, span));
+				values.add(average(s, index, span));
 			}
 			else {
-				values.add(((s.data.get(i).close - values.get(index - 1))
-								* multiplier) + values.get(index - 1));
+				values.add(((s.data.get(i).close - values.get(index - 1)) * multiplier) + values.get(index - 1));
 			}
 			index++;
 		}
@@ -65,7 +64,9 @@ public class Calculations {
 		
 		//walk backward through the data and calculate the averages
 		for(; size >= span; size--) {
-			values.add(average(s, size - span, size));
+			float a = average(s, size - span, size);
+			//System.out.println(a);
+			values.add(a);
 		}
 		
 		return values;
@@ -83,10 +84,10 @@ public class Calculations {
 	 * @return A list of float values where the gain is at index 0 and the loss at index 1
 	 */
 	public static List<Float> averageGainLoss(Stock s, int start, int end){
-		float gain = 0;
-		float loss = 0;
-		for(;start < end; start++){
-			float change = s.data.get(start).close - s.data.get(start).open;
+		float gain = 0f;
+		float loss = 0f;
+		for(int i = start; i < end; i++){
+			float change = s.data.get(i).close - s.data.get(i).open;
 			if(change > 0){
 				gain += change;
 			}
@@ -114,19 +115,19 @@ public class Calculations {
 		for(int i = span; i < s.data.size(); i++){
 			if(begin > 0){
 				float change = s.data.get(i).close - s.data.get(i).open;
-				float g = change > 0 ? change : 0;
-				float l = change < 0 ? change : 0;
+				float g = change > 0f ? change : 0f;
+				float l = change < 0f ? change : 0f;
 				gains.add(averageGainLoss(s, begin, i));
 				float smoothedUp = (((gains.get(begin - 1).get(0) * (span - 1)) + g) / span);
 				float smoothedDown = (((gains.get(begin - 1).get(1) * (span - 1)) + l) / span);
 				float rs = smoothedUp / smoothedDown;
-				values.add((100 - (100/(1 + rs))));
+				values.add((100f - (100f/(1f + rs))));
 			}
 			else{
 				List<Float> UD = averageGainLoss(s, begin, i);
 				float rs = UD.get(0) / UD.get(1);
-				gains.add( UD);
-				values.add((100 - (100/(1 + rs))));
+				gains.add(UD);
+				values.add((100f - (100f/(1f + rs))));
 			}
 			begin++;
 
@@ -156,11 +157,11 @@ public class Calculations {
 	 * @return a list of floats where index 0 holds the high, and index 1 the low
 	 */
 	public static List<Float> highestHighLowestLow(Stock s, int start, int end){
-		float high = 0;
-		float low = 0;
+		float high = 0f;
+		float low = 999999999f;
 		for(;start < end; start++){
 			high = high < s.data.get(start).high ? s.data.get(start).high : high;
-			low = low < s.data.get(start).low ? s.data.get(start).low : low;
+			low = low > s.data.get(start).low ? s.data.get(start).low : low;
 		}
 
 		return new ArrayList<Float>(Arrays.asList(high, low));
@@ -179,7 +180,9 @@ public class Calculations {
 		int begin = 0;
 		for(int i = span; i < s.data.size(); i++){
 			List<Float> hl = highestHighLowestLow(s, begin, i);
-			values.add((s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100);
+			float val = (s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100;
+			System.out.println(val);
+			values.add(val);
 			begin++;
 
 		}

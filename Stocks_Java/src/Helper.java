@@ -32,7 +32,7 @@ public class Helper{
 	{
 		String COMMA_DELIMITER = ",";
 		String NEW_LINE_SEPARATOR = "\n";
-		
+
 		FileWriter fw = null;
 		String dateStr = (isSeq?"Seq Report (":"Smp Report (") + java.time.LocalDate.now().toString() + ")";
 		File dateFolder = new File("../output_database/" + dateStr);
@@ -56,7 +56,7 @@ public class Helper{
 			fw.append(NEW_LINE_SEPARATOR);
 
 			// Need to fix the inconsistent record size
-			int record_size = sma.size() - 100;
+			int record_size = sma.size();
 			for (int i = 0; i < record_size; i++)
 			{
 				fw.append(df.format(s.data.get(i).date));

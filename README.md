@@ -9,4 +9,4 @@ export CLASSPATH=.:/home/stu2/s19/zxl3946/Desktop/StockMarketAnalysis/Stocks_Jav
 export PATH=/usr/local/dcs/versions/jdk1.7.0_51/bin:$PATH
 javac -cp $CLASSPATH *.java
 jar cf p1.jar *.class
-java pj2 debug=makespan jar=p1.jar MainSequential
+java pj2 debug=makespan jar=p1.jar MainSequential input.txt 14
