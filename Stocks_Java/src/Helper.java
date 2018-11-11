@@ -136,4 +136,21 @@ public class Helper{
 		
 		return rtnList;
 	}
+	
+	public boolean NaiveBayesPrediction(
+		float stockIR, 		
+		List<Float> sma,
+		List<Float> ema
+	)
+	{
+		int totalRecords = 0;
+		int StockInc = 0;
+		int StockNotInc = 0;
+		int SMAInc = 0;
+		int SMAInc_StockInc = 0;
+		int EMAInc = 0;
+		int EMAInc_StockInc = 0;
+		
+		return true;
+	}
 }
