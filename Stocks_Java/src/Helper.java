@@ -19,6 +19,9 @@ public class Helper{
 		
 	}
 	
+	/**
+	 * Populate the report anaylsis based on the input sma, ema, rsi so
+	 */	
 	public void writeReportToCSV(
 		Boolean isSeq,
 		String fileName,
@@ -93,7 +96,7 @@ public class Helper{
 
 	/**
 	 * read the input file that contains a list of stock symbols
-	 * @param string type
+	 * @param string type file path 
 	 */	
 	public ArrayList<String> readInputFile(String fileName)
 	{

@@ -21,6 +21,8 @@ public class Stock {
 		this.loadStockDataFromJson(fileName);
 	}
 	
+	// Read the stock data from the stock file path
+	// Store those data to the local public data array list
 	public void loadStockDataFromJson(String fileName)
 	{
 		try {
