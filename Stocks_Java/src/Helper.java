@@ -8,6 +8,20 @@ import java.util.*;
 import java.io.FileWriter;
 import java.text.SimpleDateFormat;  
 
+class StockPricePrediction
+{
+	public float Pro_IncStock_Given_IncEma_IncSMA;
+	public float Pro_NotIncStock_Given_IncEma_IncSMA;
+	public boolean isStockInc;
+	
+	public StockPricePrediction(float p1, float p2)
+	{
+		Pro_IncStock_Given_IncEma_IncSMA = p1;
+		Pro_NotIncStock_Given_IncEma_IncSMA = p2;
+		isStockInc = (p1 > p2);
+	}
+}
+
 public class Helper{
 
 	/**
@@ -56,6 +70,8 @@ public class Helper{
 			fw.append("RSI");
 			fw.append(COMMA_DELIMITER);
 			fw.append("SO");
+			fw.append(COMMA_DELIMITER);
+			fw.append("Prediction on Stock Behavior Given that SMA and EMA are increased");
 			fw.append(NEW_LINE_SEPARATOR);
 
 			// Need to fix the inconsistent record size
@@ -73,6 +89,26 @@ public class Helper{
 				fw.append(String.valueOf(rsi.get(i)));
 				fw.append(COMMA_DELIMITER);
 				fw.append(String.valueOf(so.get(i)));
+				
+				if (i == 0)
+				{
+					fw.append(COMMA_DELIMITER);
+					StockPricePrediction prediction = this.NaiveBayesPrediction(
+						(float)0.01, 
+						sma, 
+						ema,
+						s,
+						span
+					);
+					
+					String input_pre = (prediction.isStockInc?"Increase":"Not Increase") + 
+					"(" + String.valueOf(prediction.Pro_IncStock_Given_IncEma_IncSMA) + ")";
+					
+					System.out.println(input_pre);
+					
+					fw.append(input_pre);
+				}
+				
 				fw.append(NEW_LINE_SEPARATOR);
 			}
 		}
@@ -143,7 +179,7 @@ public class Helper{
 		return (IR >= stockIR);
 	}
 	
-	public boolean NaiveBayesPrediction(
+	public StockPricePrediction NaiveBayesPrediction(
 		float stockIR, 		
 		List<Float> sma,
 		List<Float> ema,
@@ -208,15 +244,41 @@ public class Helper{
 			}
 		}
 		
+		float Pro_Inc_SMA = SMAInc / totalRecords;
+		float Pro_Inc_EMA = EMAInc / totalRecords;
+		
+		float Pro_Inc_Stock = StockInc / totalRecords;
+		float Pro_NotInc_Stock = StockNotInc/ totalRecords;
+		
+		float Pro_IncSma_IncStock = SMAInc_StockInc / SMAInc;
+		float Pro_IncEma_IncStock = EMAInc_StockInc / SMAInc;
+		
+		float Pro_IncSma_NotIncStock = SMAInc_StockNotInc / SMAInc;
+		float Pro_IncEma_NotIncStock = EMAInc_StockNotInc / SMAInc;	
+		
+		float Pro_IncStock_Given_IncEma_IncSMA = 
+			Pro_IncSma_IncStock * Pro_IncEma_IncStock * Pro_Inc_Stock / (Pro_Inc_SMA * Pro_Inc_EMA);
+			
+		float Pro_NotIncStock_Given_IncEma_IncSMA = 
+			Pro_IncSma_NotIncStock * Pro_IncEma_NotIncStock * Pro_NotInc_Stock / (Pro_Inc_SMA * Pro_Inc_EMA);
+			
+		/*
 		System.out.printf(
-			"Total Size:%.3f, Stock Inc:%.3f, Stock Not Inc:%.3f," + 
-			"Total inc SMA:%.3f, inc sma with SI:%.3f, inc sma with SD:%.3f" + 
-			"Total inc EMA:%.3f, inc ema with SI:%.3f, inc ema with SD:%.3f\n",
+			"Total Size:%.3f, Stock Inc:%.3f, Stock Not Inc:%.3f\n" + 
+			"Total inc SMA:%.3f, inc sma with SI:%.3f, inc sma with SD:%.3f\n" + 
+			"Total inc EMA:%.3f, inc ema with SI:%.3f, inc ema with SD:%.3f\n" +
+			"Probility of increasing stock given sma and ema is increasing %.3f\n" + 
+			"Probility of not increasing stock given sma and ema is increasing %.3f\n",
 			totalRecords, StockInc, StockNotInc,
 			SMAInc, SMAInc_StockInc, SMAInc_StockNotInc,
-			EMAInc, EMAInc_StockInc, EMAInc_StockNotInc
-		);
+			EMAInc, EMAInc_StockInc, EMAInc_StockNotInc,
+			Pro_IncStock_Given_IncEma_IncSMA,
+			Pro_NotIncStock_Given_IncEma_IncSMA
+		); */
 		
-		return true;
+		StockPricePrediction rtnVal = 
+			new StockPricePrediction(Pro_IncStock_Given_IncEma_IncSMA, Pro_NotIncStock_Given_IncEma_IncSMA);
+		
+		return rtnVal;
 	}
 }
