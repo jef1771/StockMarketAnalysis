@@ -137,19 +137,85 @@ public class Helper{
 		return rtnList;
 	}
 	
+	public boolean isHigher(float stockIR, float prePrice, float curPrice)
+	{
+		float IR = (curPrice - prePrice) / prePrice;
+		return (IR >= stockIR);
+	}
+	
 	public boolean NaiveBayesPrediction(
 		float stockIR, 		
 		List<Float> sma,
-		List<Float> ema
+		List<Float> ema,
+		Stock s,
+		int span
 	)
 	{
-		int totalRecords = 0;
-		int StockInc = 0;
-		int StockNotInc = 0;
-		int SMAInc = 0;
-		int SMAInc_StockInc = 0;
-		int EMAInc = 0;
-		int EMAInc_StockInc = 0;
+		float totalRecords = 0;
+		float StockInc = 0;
+		float StockNotInc = 0;
+		
+		float SMAInc = 0;
+		float SMAInc_StockInc = 0;
+		float SMAInc_StockNotInc = 0;
+		
+		float EMAInc = 0;
+		float EMAInc_StockInc = 0;
+		float EMAInc_StockNotInc = 0;
+		
+		for (int i = 0; i < (sma.size() - 1); i++)
+		{
+			// number if records
+			totalRecords++;
+			
+			if (  
+				isHigher(
+					stockIR, 
+					s.data.get(i).close, 
+					s.data.get(i+span).close
+				)
+			)
+			{
+				StockInc++;
+				
+				if (sma.get(i+1) > sma.get(i))
+				{
+					SMAInc++;
+					SMAInc_StockInc++;
+				}
+				
+				if (ema.get(i+1) > ema.get(i))
+				{
+					EMAInc++;
+					EMAInc_StockInc++;
+				}
+			}
+			else
+			{
+				StockNotInc++;
+				
+				if (sma.get(i+1) > sma.get(i))
+				{
+					SMAInc++;
+					SMAInc_StockNotInc++;
+				}
+				
+				if (ema.get(i+1) > ema.get(i))
+				{
+					EMAInc++;
+					EMAInc_StockNotInc++;
+				}
+			}
+		}
+		
+		System.out.printf(
+			"Total Size:%.3f, Stock Inc:%.3f, Stock Not Inc:%.3f," + 
+			"Total inc SMA:%.3f, inc sma with SI:%.3f, inc sma with SD:%.3f" + 
+			"Total inc EMA:%.3f, inc ema with SI:%.3f, inc ema with SD:%.3f\n",
+			totalRecords, StockInc, StockNotInc,
+			SMAInc, SMAInc_StockInc, SMAInc_StockNotInc,
+			EMAInc, EMAInc_StockInc, EMAInc_StockNotInc
+		);
 		
 		return true;
 	}
