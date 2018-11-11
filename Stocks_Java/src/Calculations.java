@@ -65,7 +65,7 @@ public class Calculations {
 		//walk backward through the data and calculate the averages
 		for(; size >= span; size--) {
 			float a = average(s, size - span, size);
-			//System.out.println(a);
+
 			values.add(a);
 		}
 		
@@ -97,6 +97,7 @@ public class Calculations {
 		}
 		gain = gain / (end - start);
 		loss = loss / (end - start);
+
 		return new ArrayList<Float>(Arrays.asList(gain, loss));
 	}
 
@@ -116,18 +117,20 @@ public class Calculations {
 			if(begin > 0){
 				float change = s.data.get(i).close - s.data.get(i).open;
 				float g = change > 0f ? change : 0f;
-				float l = change < 0f ? change : 0f;
+				float l = change < 0f ? (change * -1f) : 0f;
 				gains.add(averageGainLoss(s, begin, i));
 				float smoothedUp = (((gains.get(begin - 1).get(0) * (span - 1)) + g) / span);
 				float smoothedDown = (((gains.get(begin - 1).get(1) * (span - 1)) + l) / span);
 				float rs = smoothedUp / smoothedDown;
-				values.add((100f - (100f/(1f + rs))));
+				float val = (100f - (100f/(1f + rs)));
+				values.add(val);
 			}
 			else{
 				List<Float> UD = averageGainLoss(s, begin, i);
 				float rs = UD.get(0) / UD.get(1);
 				gains.add(UD);
-				values.add((100f - (100f/(1f + rs))));
+				float val = (100f - (100f/(1f + rs)));
+				values.add(val);
 			}
 			begin++;
 
@@ -159,7 +162,7 @@ public class Calculations {
 	public static List<Float> highestHighLowestLow(Stock s, int start, int end){
 		float high = 0f;
 		float low = 999999999f;
-		for(;start < end; start++){
+		for(;start <= end; start++){
 			high = high < s.data.get(start).high ? s.data.get(start).high : high;
 			low = low > s.data.get(start).low ? s.data.get(start).low : low;
 		}
@@ -181,7 +184,6 @@ public class Calculations {
 		for(int i = span; i < s.data.size(); i++){
 			List<Float> hl = highestHighLowestLow(s, begin, i);
 			float val = (s.data.get(i).close - hl.get(1)) / (hl.get(0) - hl.get(1)) * 100;
-			System.out.println(val);
 			values.add(val);
 			begin++;
 
