@@ -7,6 +7,9 @@ public class MainParallel extends Task {
 	public String Li_Personal = "../stock_database/";
 	public String James_Tardis = "/home/stu10/s5/jef1771/Courses/CS654/stocks/StockMarketAnalysis/Stocks_Java/stock_database/A.txt";
 	public String James_Personal = "/Users/Yamie/Desktop/CS654/Stock_Analytics/StockMarketAnalysis/Stocks_Java/stock_database/A.txt";
+	public ArrayList<String> symbolNames;
+	public Helper helper;
+	public int spanSize;
 
 	public void main(String[] arg0) throws Exception 
 	{	
@@ -15,11 +18,11 @@ public class MainParallel extends Task {
 			terminate(1);
 		}
 		
-		Helper helper = new Helper();
+		helper = new Helper();
 	
 		// Argument 0 is the file name
-		ArrayList<String> symbolNames = helper.readInputFile(arg0[0]);
-		int spanSize = Integer.parseInt(arg0[1]);
+		symbolNames = helper.readInputFile(arg0[0]);
+		spanSize = Integer.parseInt(arg0[1]);
 		
 		parallelFor(0, (symbolNames.size()-1)).exec(new Loop()
 		{

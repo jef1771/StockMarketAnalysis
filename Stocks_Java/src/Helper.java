@@ -51,7 +51,7 @@ public class Helper{
 		String NEW_LINE_SEPARATOR = "\n";
 
 		FileWriter fw = null;
-		String dateStr = (isSeq?"Seq Report (":"Smp Report (") + java.time.LocalDate.now().toString() + ")";
+		String dateStr = (isSeq?"Seq Report (":"Smp Report (") + (new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime())) + ")";
 		File dateFolder = new File("../output_database/" + dateStr);
 		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 		dateFolder.mkdirs();
