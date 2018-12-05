@@ -138,8 +138,7 @@ public class Helper{
 		
 		try {
 			
-			String currentDirectory = System.getProperty("user.dir");
-			File f = new File(currentDirectory + "/" + fileName);
+			File f = new File(fileName);
 			FileReader fr = new FileReader(f);
 			BufferedReader br = new BufferedReader(fr);
 
